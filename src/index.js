@@ -198,7 +198,6 @@ module.exports = (
           }]
         },
         {
-          parser: { amd: false },
           exclude: /\.node$/,
           use: [{
             loader: eval('__dirname + "/loaders/shebang-loader.js"')
@@ -207,11 +206,12 @@ module.exports = (
       ]
     },
     plugins: [
+      new webpack.IgnorePlugin({ resourceRegExp: /pnpapi$/ }),
       {
         apply(compiler) {
           // override "not found" context to try built require first
           compiler.hooks.compilation.tap("ncc", compilation => {
-            compilation.moduleTemplates.javascript.hooks.render.tap(
+            webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).renderModuleContainer.tap(
               "ncc",
               (
                 moduleSourcePostModule,
@@ -337,7 +337,8 @@ module.exports = (
     getFlatFiles(mfs.data, assets, relocateLoader.getAssetPermissions);
     // filter symlinks to existing assets
     const symlinks = Object.create(null);
-    for (const [key, value] of Object.entries(relocateLoader.getSymlinks())) {
+    const relocateLoaderSymlinks = relocateLoader.getSymlinks() || {};
+    for (const [key, value] of Object.entries(relocateLoaderSymlinks)) {
       const resolved = join(dirname(key), value);
       if (resolved in assets)
         symlinks[key] = value;
