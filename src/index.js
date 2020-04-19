@@ -42,7 +42,7 @@ module.exports = (
     v8cache = false,
     filterAssetBase = process.cwd(),
     quiet = false,
-    debugLog = false,
+    debugLog = true,
     transpileOnly = false
   } = {}
 ) => {
@@ -88,16 +88,17 @@ module.exports = (
   resolvePlugins.push({
     apply(resolver) {
       const resolve = resolver.resolve;
+      const isNotFoundError = err => err.message.indexOf("Can't resolve") > -1;
       resolver.resolve = function (context, path, request, resolveContext, callback) {
         resolve.call(resolver, context, path, request, resolveContext, function (err, result) {
           if (!err) return callback(null, result);
-          if (!err.missing || !err.missing.length)
+          if (!isNotFoundError(err))
             return callback(err);
           // Allow .js resolutions to .tsx? from .tsx?
           if (request.endsWith('.js') && context.issuer && (context.issuer.endsWith('.ts') || context.issuer.endsWith('.tsx')))
             return resolve.call(resolver, context, path, request.slice(0, -3), resolveContext, function (err, result) {
               if (!err) return callback(null, result);
-              if (!err.missing || !err.missing.length)
+              if (!isNotFoundError(err))
                 return callback(err);
               // make not found errors runtime errors
               callback(null, __dirname + '/@@notfound.js' + '?' + (externalMap.get(request) || request));
@@ -206,7 +207,6 @@ module.exports = (
       ]
     },
     plugins: [
-      new webpack.IgnorePlugin({ resourceRegExp: /pnpapi$/ }),
       {
         apply(compiler) {
           // override "not found" context to try built require first
