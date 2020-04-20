@@ -42,7 +42,7 @@ module.exports = (
     v8cache = false,
     filterAssetBase = process.cwd(),
     quiet = false,
-    debugLog = true,
+    debugLog = false,
     transpileOnly = false
   } = {}
 ) => {
@@ -221,13 +221,14 @@ module.exports = (
               ) => {
                 if (
                   module._contextDependencies &&
-                  moduleSourcePostModule._value.match(
+                  moduleSourcePostModule._source.source() &&
+                  moduleSourcePostModule._source.source().match(
                     /webpackEmptyAsyncContext|webpackEmptyContext/
                   )
                 ) {
                   // ensure __webpack_require__ is added to wrapper
                   module.type = 'custom';
-                  return moduleSourcePostModule._value.replace(
+                  return moduleSourcePostModule._source.source().replace(
                     "var e = new Error",
                     `if (typeof req === 'number' && __webpack_require__.m[req])\n` +
                     `  return __webpack_require__(req);\n` +
