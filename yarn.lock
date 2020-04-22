@@ -1527,14 +1527,13 @@ ajv-keywords@^3.4.1:
   integrity sha1-75FuJxxkrBIXH9g4TqrmsjRYVNo=
 
 ajv@^6.12.0:
-  version "6.12.1"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/ajv/-/ajv-6.12.1.tgz#cce4d7dfcd62d3c57b1cd772e688eff5f5cd3839"
-  integrity sha1-zOTX381i08V7HNdy5ojv9fXNODk=
+  version "6.12.2"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"
+  integrity sha1-xinF7O0XuvMUQ3kY0tqIyZ1ZWM0=
   dependencies:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
-    opencollective-postinstall "^2.0.2"
     uri-js "^4.2.2"
 
 ajv@^6.5.5:
@@ -7461,9 +7460,9 @@ jest-worker@^23.2.0:
     merge-stream "^1.0.1"
 
 jest-worker@^25.1.0:
-  version "25.2.6"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/jest-worker/-/jest-worker-25.2.6.tgz#d1292625326794ce187c38f51109faced3846c58"
-  integrity sha1-0SkmJTJnlM4YfDj1EQn6ztOEbFg=
+  version "25.4.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/jest-worker/-/jest-worker-25.4.0.tgz#ee0e2ceee5a36ecddf5172d6d7e0ab00df157384"
+  integrity sha1-7g4s7uWjbs3fUXLW1+CrAN8Vc4Q=
   dependencies:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
@@ -10066,11 +10065,6 @@ only@~0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/only/-/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
   integrity sha1-Kv3oTQPlC5qO3EROMGEKcCle37Q=
-
-opencollective-postinstall@^2.0.2:
-  version "2.0.2"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
-  integrity sha1-Vlfxvt5ptuM6RZObBh61PTxsOok=
 
 opener@^1.5.1:
   version "1.5.1"
@@ -14158,10 +14152,10 @@ webpack-sources@^1.4.3:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^5.0.0-beta.14:
-  version "5.0.0-beta.14"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/webpack/-/webpack-5.0.0-beta.14.tgz#f30851bcb12920be6c225dce5e5da93d2de6f68a"
-  integrity sha1-8whRvLEpIL5sIl3OXl2pPS3m9oo=
+webpack@^5.0.0-beta.15:
+  version "5.0.0-beta.15"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/webpack/-/webpack-5.0.0-beta.15.tgz#bd44de61ed6018e554afbabdb5b644cae86357cb"
+  integrity sha1-vUTeYe1gGOVUr7q9tbZEyuhjV8s=
   dependencies:
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/helper-module-context" "1.9.0"
