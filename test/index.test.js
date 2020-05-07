@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { fork } = require("child_process");
 const ncc = global.coverage ? require("../src/index") : require("../");
+const diff = require('jest-diff').default;
 
 for (const unitTest of fs.readdirSync(`${__dirname}/unit`)) {
   it(`should generate correct output for ${unitTest}`, async () => {
@@ -66,6 +67,33 @@ for (const unitTest of fs.readdirSync(`${__dirname}/unit`)) {
     );
   });
 }
+
+expect.extend({
+  toBeMessage (received, expected, msg) {
+    const pass = expected === received
+    const message = pass
+  ? () => `${this.utils.matcherHint('.not.toBe')}\n\n` +
+          `Expected value to not be (using ===):\n` +
+          `  ${this.utils.printExpected(expected)}\n` +
+          `Received:\n` +
+          `  ${this.utils.printReceived(received)}`
+        : () => {
+          const diffString = diff(expected, received, {
+            expand: this.expand
+          })
+          return `${this.utils.matcherHint('.toBe')}\n\n` +
+          `Expected value to be (using ===):\n` +
+          `  ${this.utils.printExpected(expected)}\n` +
+          `Received:\n` +
+          `  ${this.utils.printReceived(received)}` +
+          `${(diffString ? `\n\nDifference:\n\n${diffString}` : '')}\n` +
+          `${(msg ? `Custom:\n  ${msg}` : '')}`
+        }
+  
+      return { actual: received, message, pass }
+    }
+  })
+
 for (const cliTest of eval(fs.readFileSync(__dirname + "/cli.js").toString())) {
   it(`should execute "ncc ${(cliTest.args || []).join(" ")}"`, async () => {
     const ps = fork(__dirname + (global.coverage ? "/../src/cli.js" : "/../dist/ncc/cli.js"), cliTest.args || [], {
@@ -82,8 +110,10 @@ for (const cliTest of eval(fs.readFileSync(__dirname + "/cli.js").toString())) {
         ps.kill();
       }, cliTest.timeout);
     const code = await new Promise(resolve => ps.on("close", resolve));
-    if (typeof expected === "function")
-      expect(expected(code, stdout, stderr, timedOut)).toBe(true);
+    if (typeof expected === "function") {
+      const result = expected(code, stdout, stderr, timedOut);
+      expect(result).toBeMessage(true, `stdout: '${stdout}'\nstderr: '${stderr}'\ncode: ${code}\ntimedOut: ${timedOut}\nexpected: ${expected.toString()}`);
+    }
     else {
       if ("code" in expected)
         expect(code).toBe(expected.code);
